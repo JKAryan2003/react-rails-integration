@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignUpForm from './components/SignUpForm';
 import LoginForm from './components/LoginForm';
 import Users from './components/Users';
+import NavBar from './components/NavBar';
 
 function App() {
 
@@ -11,25 +12,47 @@ function App() {
     [ 
       {
         path: '/',
-        element: <Users />
+        element:
+        <div>
+          <NavBar />
+          <MainPage />
+        </div>
+      },
+
+      {
+        path: '/users',
+        element: 
+        <div>
+          <NavBar />
+          <Users />
+        </div>
       },
 
       {
         path: '/signup',
-        element: <SignUpForm />
+        element: 
+        <div>
+          <NavBar />
+          <SignUpForm />
+        </div>
       },
       
       {
         path: '/login',
-        element: <LoginForm />
+        element: 
+        <div>
+          <NavBar />
+          <LoginForm />
+        </div>
       }
     ]
   )
  
   return (
     <>
-      <MainPage />
-      <RouterProvider router={router}></RouterProvider>
+      <RouterProvider router={router}>
+        <NavBar />
+      </RouterProvider>
     </>
   )
 }
