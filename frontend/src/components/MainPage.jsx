@@ -17,24 +17,11 @@ const MainPage = () => {
     getData()
   }, [])
 
-  const handleSubmit = (name, email, password) => {
-    const input = {
-      user: {
-        username: name,
-        email: email,
-        password: password
-      }
-    }
-    console.log(input);
-    axios.post(url, input).then((response) => {
-      console.log(response.status, response.data);
-    });
 
-  }
   
   return (
     <div>
-      <SignUpForm handleSubmit={handleSubmit}/>
+      This is Home
     </div>
   )
 }

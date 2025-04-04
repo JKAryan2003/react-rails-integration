@@ -1,11 +1,30 @@
 import React from 'react'
 import {Box, Button, Typography, TextField} from "@mui/material"
 import { useState } from 'react'
+import axios from 'axios'
 
-const SignUpForm = ({handleSubmit}) => {
+const SignUpForm = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+
+  const url = "http://127.0.0.1:3000/api/v1/users"
+
+  const handleSubmit = (name, email, password) => {
+    const input = {
+      user: {
+        username: name,
+        email: email,
+        password: password,
+        token: localStorage.token
+      }
+    }
+    console.log(input);
+    axios.post(url, input).then((response) => {
+      console.log(response.status, response.data);
+    });
+
+  }
 
   const handleName = (e) => {
     setName(e.target.value)
