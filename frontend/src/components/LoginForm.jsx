@@ -2,12 +2,13 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import {Box, Button, Typography, TextField} from "@mui/material"
+import { useNavigate } from 'react-router-dom'
 
-
-const LoginForm = () => {
+const LoginForm = ({token, setToken}) => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const url = "http://127.0.0.1:3000/api/v1/users"
+  const url = "http://127.0.0.1:3000/api/v1/sessions"
 
   const handleEmail = (e) => {
     setEmail(e.target.value)
@@ -17,22 +18,37 @@ const LoginForm = () => {
     setPassword(e.target.value)
   }
 
-
-  const handleSubmit = (name, email, password) => {
-    const input = {
-      user: {
-        username: name,
-        email: email,
-        password: password,
-        token: localStorage.token
+  const handleSubmit = async (email, password) => {
+    try {
+      const input = {
+        user: {
+          email: email,
+          password: password
+        }
       }
+      const response = await axios.post(url, input)
+      console.log(response.data)
+      if (response.data)
+      {
+        localStorage.setItem("token", response.data.token)
+        setToken(localStorage.getItem('token'))
+        alert("Login Success")
+        console.log(token)
+        navigate('/users')
+      }
+      setEmail("")
+      setPassword("")
+      
     }
-    console.log(input);
-    axios.post(url, input).then((response) => {
-      console.log(response.status, response.data);
-    });
-
+    catch(error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+        alert(error.response.data.errors)
+      } else {
+        alert("An error occured. Try again")
+      }    
+    }
   }
+
 
   return (
     <div>
